@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { ActiveSymbol } from '@deriv/core';
+import { getSubmarketDisplayName } from '@/lib/active-symbols-display-names';
 
 interface SymbolSelectorProps {
   symbols: ActiveSymbol[];
@@ -18,15 +19,19 @@ interface SymbolSelectorProps {
   onSymbolChange: (symbol: string) => void;
 }
 
-function groupBySubmarket(symbols: ActiveSymbol[]): Map<string, ActiveSymbol[]> {
-  const groups = new Map<string, ActiveSymbol[]>();
+type SubmarketGroup = { displayName: string; symbols: ActiveSymbol[] };
+
+function groupBySubmarket(symbols: ActiveSymbol[]): Map<string, SubmarketGroup> {
+  const groups = new Map<string, SubmarketGroup>();
   for (const symbol of symbols) {
     const key = symbol.submarket;
-    const group = groups.get(key);
-    if (group) {
-      group.push(symbol);
+    const existing = groups.get(key);
+    if (existing) {
+      existing.symbols.push(symbol);
     } else {
-      groups.set(key, [symbol]);
+      const displayName =
+        symbol.submarket_display_name ?? getSubmarketDisplayName(symbol.submarket);
+      groups.set(key, { displayName, symbols: [symbol] });
     }
   }
   return groups;
@@ -48,9 +53,9 @@ export function SymbolSelector({
         <SelectValue placeholder="Select a symbol" />
       </SelectTrigger>
       <SelectContent>
-        {Array.from(grouped.entries()).map(([submarket, group]) => (
+        {Array.from(grouped.entries()).map(([submarket, { displayName, symbols: group }]) => (
           <SelectGroup key={submarket}>
-            <SelectLabel>{submarket}</SelectLabel>
+            <SelectLabel>{displayName}</SelectLabel>
             {group.map((symbol) => (
               <SelectItem
                 key={symbol.underlying_symbol}

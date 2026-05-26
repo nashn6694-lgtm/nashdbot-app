@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import type { OpenPosition } from '@/hooks/use-open-positions';
+import { getSymbolDisplayName } from '@/lib/active-symbols-display-names';
 
 interface OpenPositionCardProps {
   pos: OpenPosition;
@@ -76,7 +77,7 @@ export function OpenPositionCard({
             <span className="text-xs font-bold text-foreground">{pos.underlying_symbol}</span>
           </div>
           <span className="text-sm font-semibold text-foreground leading-tight">
-            {pos.underlying_symbol}
+            {getSymbolDisplayName(pos.underlying_symbol)}
           </span>
         </div>
         <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">

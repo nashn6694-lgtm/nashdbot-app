@@ -18,7 +18,6 @@ import {
   parseReferralLink,
 } from '@deriv/core';
 import type { AuthInfo, DerivAccount, AuthState, AuthConfig } from '@deriv/core';
-import { loginWithApiToken } from '@/lib/token-auth';
 
 function getAuthConfig(): AuthConfig {
   const config: AuthConfig = {
@@ -59,7 +58,6 @@ export interface UseAuthReturn {
   signUp: () => Promise<void>;
   logout: () => void;
   switchAccount: (accountId: string) => Promise<void>;
-  loginWithToken: (token: string) => Promise<void>;
   error: string | null;
 }
 
@@ -101,27 +99,6 @@ export function useAuth(): UseAuthReturn {
 
     setAuthState('authenticated');
   }, [fetchOTPUrl]);
-
-
-  const loginWithToken = useCallback(async (token: string) => {
-    try {
-      setAuthState('authenticating');
-      setError(null);
-
-      const result = await loginWithApiToken(token);
-
-      setActiveAccountId(result.loginid);
-
-      const wsUrl = `wss://ws.derivws.com/websockets/v3?app_id=${process.env.NEXT_PUBLIC_DERIV_APP_ID}`;
-
-      setWsUrl(wsUrl);
-
-      setAuthState('authenticated');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Token login failed');
-      setAuthState('unauthenticated');
-    }
-  }, []);
 
   // Initialize: check for OAuth callback or existing session
   useEffect(() => {
@@ -286,7 +263,6 @@ export function useAuth(): UseAuthReturn {
     signUp,
     logout,
     switchAccount,
-    loginWithToken,
     error,
   };
 }

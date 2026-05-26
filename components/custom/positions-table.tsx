@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { getSymbolDisplayName } from '@/lib/active-symbols-display-names';
 import { OpenPositionCard } from './open-position-card';
 import { ClosedPositionCard } from './closed-position-card';
 import type { OpenPosition } from '@/hooks/use-open-positions';
@@ -178,7 +179,7 @@ function OpenPositionRow({
       <TableCell className="font-medium">
         {formatContractType(pos.contract_type, contractTypeLabels, pos.barrier)}
       </TableCell>
-      <TableCell className="text-muted-foreground">{pos.underlying_symbol}</TableCell>
+      <TableCell className="text-muted-foreground">{getSymbolDisplayName(pos.underlying_symbol)}</TableCell>
       <TableCell className="text-right">
         {parseFloat(pos.buy_price).toFixed(2)} {pos.currency}
       </TableCell>
@@ -216,7 +217,7 @@ function ClosedPositionRow({
       <TableCell className="font-medium">
         {formatContractType(pos.contract_type, contractTypeLabels)}
       </TableCell>
-      <TableCell className="text-muted-foreground">{pos.underlying_symbol}</TableCell>
+      <TableCell className="text-muted-foreground">{getSymbolDisplayName(pos.underlying_symbol)}</TableCell>
       <TableCell className="text-right">
         {pos.buy_price.toFixed(2)}
       </TableCell>

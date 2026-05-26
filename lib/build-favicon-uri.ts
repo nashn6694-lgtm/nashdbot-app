@@ -2,24 +2,27 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * Returns a favicon URI to embed in Next.js metadata, or null when the App
- * Builder has already injected a static app/icon.{png,jpg,jpeg} that Next.js
- * will auto-discover via file convention — in which case `icons` must be left
- * unset so the injected image file is used without interference.
+ * Returns a favicon URI to embed in Next.js metadata.
  *
- * When no image logo is present, an SVG letter-in-box is built from the app
- * name env var and the primary colour read from globals.css (which the App
- * Builder patches at deploy time).  Base64 encoding is used instead of a
+ * Checks public/logo.{png,jpg,jpeg,webp} in priority order. When a logo file
+ * is found its public URL ('/logo.<ext>') is returned and set as the favicon
+ * via generateMetadata — the same file that the Header component displays.
+ *
+ * When no logo is present, an SVG letter-in-box is built from the app name
+ * env var and the primary colour read from globals.css (patched by the App
+ * Builder at deploy time). Base64 encoding is used instead of a
  * percent-encoded raw SVG to guarantee cross-browser compatibility — Firefox
  * and Safari misparse raw '#' characters inside text-based data URIs.
  */
 export function buildFaviconUri(): string | null {
-  const appDir = path.join(process.cwd(), 'app');
-  const imageLogoInjected = ['png', 'jpg', 'jpeg'].some((ext) =>
-    fs.existsSync(path.join(appDir, `icon.${ext}`))
-  );
-  if (imageLogoInjected) {
-    return null;
+  // public/logo.<ext> is the single source of truth for the logo — used by
+  // both the Header component and as the favicon. The App Builder writes the
+  // logo here at deploy time; for local dev place any logo at public/logo.<ext>.
+  const publicDir = path.join(process.cwd(), 'public');
+  for (const ext of ['png', 'jpg', 'jpeg', 'webp']) {
+    if (fs.existsSync(path.join(publicDir, `logo.${ext}`))) {
+      return `/logo.${ext}`;
+    }
   }
 
   const appName = process.env.NEXT_PUBLIC_DERIV_APP_NAME ?? 'Deriv App';
