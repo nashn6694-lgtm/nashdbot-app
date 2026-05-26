@@ -27,19 +27,6 @@ const DIGIT_TRADE_TYPE_OPTIONS: { value: TradeType; label: string }[] = [
   { value: 'even-odd', label: 'Even/Odd' },
 ];
 
-const {
-  authState,
-  accounts,
-  activeAccount,
-  activeAccountId,
-  wsUrl,
-  login,
-  logout,
-  switchAccount,
-  loginWithToken,
-  error,
-} = useAuth();
-
 export interface DigitsViewProps {
   // Auth
   authState: AuthState;
@@ -90,6 +77,21 @@ export interface DigitsViewProps {
 }
 
 export function DigitsView({
+
+  const {
+    authState,
+    accounts,
+    activeAccount,
+    activeAccountId,
+    wsUrl,
+    login,
+    logout,
+    switchAccount,
+    loginWithToken,
+    error,
+  } = useAuth();
+
+
   authState,
   accounts,
   activeAccount,
