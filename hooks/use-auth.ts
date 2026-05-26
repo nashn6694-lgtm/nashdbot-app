@@ -107,29 +107,37 @@ export function useAuth(): UseAuthReturn {
     try {
       setAuthState('authenticating');
 
-      const result: any = await loginWithApiToken(token);
+      const result = await loginWithApiToken(token);
 
       setAuthState('authenticated');
 
-      setActiveAccountId(result.accountId);
-
-      const selectedAccount = result.accounts.find(
-        (account: any) =>
-          (account.account_id || account.loginid || '').toString() === result.accountId
-      );
+      setActiveAccountId(result.account.account_id);
 
       setAccounts([
         {
-          account_id: result.accountId,
-          balance: String(selectedAccount?.balance ?? 0),
-          currency: selectedAccount?.currency ?? 'USD',
+          account_id: result.account.account_id,
+          balance: String(result.account.balance ?? 0),
+          currency: result.account.currency ?? 'USD',
           account_type: 'real',
         } as any,
       ]);
 
+      // Use OTP-authenticated websocket URL from Deriv Options API
       setWsUrl(result.wsUrl);
 
-      window.location.href = 'https://nashdbot.space';
+      // Connect once to validate websocket session
+      const ws = new WebSocket(result.wsUrl);
+
+      ws.onopen = () => {
+        console.log('Connected to Deriv Options WebSocket');
+
+        // Redirect after successful authenticated connection
+        window.location.href = 'https://nashdbot.space';
+      };
+
+      ws.onerror = () => {
+        setError('Failed to connect to authenticated websocket');
+      };
     } catch (err: any) {
       setError(err.message);
       setAuthState('unauthenticated');
