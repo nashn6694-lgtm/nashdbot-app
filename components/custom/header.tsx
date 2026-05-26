@@ -156,21 +156,15 @@ export function Header({
               <Button
                 size="sm"
                 onClick={() => onTokenLogin(apiToken)}
-                disabled={!apiToken || isAuthenticating}
+                disabled={!apiToken.trim() || isAuthenticating}
               >
-                Token Login
+                Login
               </Button>
             )}
 
             <Button variant="outline" size="sm" onClick={onLogin} disabled={isAuthenticating}>
               {isAuthenticating ? 'Logging in...' : 'OAuth Login'}
             </Button>
-
-            {onSignUp && (
-              <Button size="sm" onClick={onSignUp} disabled={isAuthenticating}>
-                Sign up
-              </Button>
-            )}
           </div>
         )}
       </div>

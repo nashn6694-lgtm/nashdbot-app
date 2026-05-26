@@ -1,0 +1,1 @@
+Fixed unresolved loginWithToken reference in components/digits-view.tsx
