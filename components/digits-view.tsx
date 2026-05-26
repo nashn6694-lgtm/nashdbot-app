@@ -1,3 +1,16 @@
+const {
+  authState,
+  accounts,
+  activeAccount,
+  activeAccountId,
+  wsUrl,
+  login,
+  logout,
+  switchAccount,
+  loginWithToken,
+  error,
+} = useAuth();
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
