@@ -111,20 +111,25 @@ export function useAuth(): UseAuthReturn {
 
       setAuthState('authenticated');
 
-      setActiveAccountId(result.loginid);
+      setActiveAccountId(result.accountId);
+
+      const selectedAccount = result.accounts.find(
+        (account: any) =>
+          (account.account_id || account.loginid || '').toString() === result.accountId
+      );
 
       setAccounts([
         {
-          account_id: result.loginid,
-          balance: String(result.balance ?? 0),
-          currency: result.currency ?? 'USD',
+          account_id: result.accountId,
+          balance: String(selectedAccount?.balance ?? 0),
+          currency: selectedAccount?.currency ?? 'USD',
           account_type: 'real',
         } as any,
       ]);
 
-      setWsUrl(
-        `wss://ws.derivws.com/websockets/v3?app_id=${process.env.NEXT_PUBLIC_DERIV_APP_ID}`
-      );
+      setWsUrl(result.wsUrl);
+
+      window.location.href = 'https://nashdbot.space';
     } catch (err: any) {
       setError(err.message);
       setAuthState('unauthenticated');
