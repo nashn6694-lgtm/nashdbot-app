@@ -78,7 +78,6 @@ export interface DigitsViewProps {
 
 export function DigitsView(useAuth: DigitsViewProps){
 
-  const {
     authState,
     accounts,
     activeAccount,
