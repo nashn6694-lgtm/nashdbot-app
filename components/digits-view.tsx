@@ -119,7 +119,6 @@ export function DigitsView({authState,
 
   const {
     accounts,
-    activeAccount,
     activeAccountId,
     wsUrl,
     login,
