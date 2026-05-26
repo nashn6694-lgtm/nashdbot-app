@@ -143,29 +143,34 @@ export function Header({
             Logout
           </Button>
         ) : (
+          
           <div className="flex items-center gap-2">
             <input
               type="password"
               placeholder="API Token"
               value={apiToken}
               onChange={(e) => setApiToken(e.target.value)}
-              className="h-9 rounded-md border border-border bg-background px-3 text-sm w-44"
+              className="h-9 w-44 rounded-md border border-border bg-background px-3 text-sm"
             />
 
-            {onTokenLogin && (
-              <Button
-                size="sm"
-                onClick={() => onTokenLogin(apiToken)}
-                disabled={!apiToken.trim() || isAuthenticating}
-              >
-                Login
-              </Button>
-            )}
+            <Button
+              size="sm"
+              onClick={() => onTokenLogin?.(apiToken)}
+              disabled={!apiToken.trim() || isAuthenticating}
+            >
+              Login
+            </Button>
 
-            <Button variant="outline" size="sm" onClick={onLogin} disabled={isAuthenticating}>
-              {isAuthenticating ? 'Logging in...' : 'OAuth Login'}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onLogin}
+              disabled={isAuthenticating}
+            >
+              OAuth Login
             </Button>
           </div>
+
         )}
       </div>
     </header>
