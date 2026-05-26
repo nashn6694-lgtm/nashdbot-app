@@ -76,7 +76,7 @@ export interface DigitsViewProps {
   appName?: string;
 }
 
-export function DigitsView({
+export function DigitsView{
 
   const {
     authState,
