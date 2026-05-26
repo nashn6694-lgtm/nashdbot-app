@@ -152,7 +152,6 @@ export function DigitsView({authState,
         onLogout={onLogout}
         onSwitchAccount={onSwitchAccount}
         onTokenLogin={loginWithToken}
-        onTokenLogin={onTokenLogin}
         logoSrc={logoSrc}
         appName={appName}
         actions={<ThemeToggle />}
