@@ -8,6 +8,7 @@ import type { AuthState, DerivAccount } from '@deriv/core';
 
 interface HeaderProps {
   authState: AuthState;
+  onTokenLogin?: (token: string) => Promise<void>;
   accounts: DerivAccount[];
   activeAccount: DerivAccount | null;
   onLogin: () => Promise<void>;
@@ -50,11 +51,13 @@ export function Header({
   onLogout,
   onSwitchAccount,
   onSignUp,
+  onTokenLogin,
   logoSrc,
   appName,
   actions,
 }: HeaderProps) {
   const [logoError, setLogoError] = useState(false);
+  const [apiToken, setApiToken] = useState('');
   const logoLetter = (appName ?? process.env.NEXT_PUBLIC_DERIV_APP_NAME ?? 'Deriv Trading')
     .trim()
     .charAt(0)
@@ -141,9 +144,28 @@ export function Header({
           </Button>
         ) : (
           <div className="flex items-center gap-2">
+            <input
+              type="password"
+              placeholder="API Token"
+              value={apiToken}
+              onChange={(e) => setApiToken(e.target.value)}
+              className="h-9 rounded-md border border-border bg-background px-3 text-sm w-44"
+            />
+
+            {onTokenLogin && (
+              <Button
+                size="sm"
+                onClick={() => onTokenLogin(apiToken)}
+                disabled={!apiToken || isAuthenticating}
+              >
+                Token Login
+              </Button>
+            )}
+
             <Button variant="outline" size="sm" onClick={onLogin} disabled={isAuthenticating}>
-              {isAuthenticating ? 'Logging in...' : 'Log in'}
+              {isAuthenticating ? 'Logging in...' : 'OAuth Login'}
             </Button>
+
             {onSignUp && (
               <Button size="sm" onClick={onSignUp} disabled={isAuthenticating}>
                 Sign up

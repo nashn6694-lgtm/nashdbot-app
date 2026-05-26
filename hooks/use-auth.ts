@@ -18,6 +18,7 @@ import {
   parseReferralLink,
 } from '@deriv/core';
 import type { AuthInfo, DerivAccount, AuthState, AuthConfig } from '@deriv/core';
+import { loginWithApiToken } from '@/lib/token-auth';
 
 function getAuthConfig(): AuthConfig {
   const config: AuthConfig = {
@@ -58,6 +59,7 @@ export interface UseAuthReturn {
   signUp: () => Promise<void>;
   logout: () => void;
   switchAccount: (accountId: string) => Promise<void>;
+  loginWithToken: (token: string) => Promise<void>;
   error: string | null;
 }
 
@@ -100,7 +102,36 @@ export function useAuth(): UseAuthReturn {
     setAuthState('authenticated');
   }, [fetchOTPUrl]);
 
-  // Initialize: check for OAuth callback or existing session
+  
+  const loginWithToken = useCallback(async (token: string) => {
+    try {
+      setAuthState('authenticating');
+
+      const result: any = await loginWithApiToken(token);
+
+      setAuthState('authenticated');
+
+      setActiveAccountId(result.loginid);
+
+      setAccounts([
+        {
+          account_id: result.loginid,
+          balance: String(result.balance ?? 0),
+          currency: result.currency ?? 'USD',
+          account_type: 'real',
+        } as any,
+      ]);
+
+      setWsUrl(
+        `wss://ws.derivws.com/websockets/v3?app_id=${process.env.NEXT_PUBLIC_DERIV_APP_ID}`
+      );
+    } catch (err: any) {
+      setError(err.message);
+      setAuthState('unauthenticated');
+    }
+  }, []);
+
+// Initialize: check for OAuth callback or existing session
   useEffect(() => {
     if (initRef.current) return;
     initRef.current = true;
@@ -263,6 +294,7 @@ export function useAuth(): UseAuthReturn {
     signUp,
     logout,
     switchAccount,
+    loginWithToken,
     error,
   };
 }

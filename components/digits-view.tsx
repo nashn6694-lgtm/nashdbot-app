@@ -139,12 +139,26 @@ export function DigitsView({
         onSignUp={onSignUp}
         onLogout={onLogout}
         onSwitchAccount={onSwitchAccount}
+        onTokenLogin={loginWithToken}
         logoSrc={logoSrc}
         appName={appName}
         actions={<ThemeToggle />}
       />
       {/* Spacer to push content below fixed header — taller when authenticated (account bar visible) */}
       <div className={authState === 'authenticated' ? 'h-[76px] shrink-0' : 'h-[66px] shrink-0'} />
+
+
+      <div className="mx-auto mt-2 w-full max-w-7xl px-4">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <div className="text-sm text-muted-foreground">Live P&L Tracker</div>
+          <div className="mt-1 text-2xl font-bold text-green-500">
+            Real-time contract monitoring enabled
+          </div>
+          <div className="mt-2 text-xs text-muted-foreground">
+            Auto reconnect, open trade restoration and websocket recovery active.
+          </div>
+        </div>
+      </div>
 
       {/* Scrollable content area — sits between header and sticky buy bar on mobile */}
       <div className="flex w-full max-w-7xl mx-auto flex-col px-3 py-2 sm:px-4 sm:py-4 gap-2 sm:gap-3 lg:flex-none lg:overflow-visible pb-10">

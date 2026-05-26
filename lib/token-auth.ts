@@ -16,19 +16,17 @@ export async function loginWithApiToken(token: string) {
 
       if (data.error) {
         reject(new Error(data.error.message));
-        ws.close();
         return;
       }
 
       if (data.msg_type === 'authorize') {
         localStorage.setItem('deriv_api_token', token);
         resolve(data.authorize);
-        ws.close();
       }
     };
 
     ws.onerror = () => {
-      reject(new Error('WebSocket failed'));
+      reject(new Error('Connection failed'));
     };
   });
 }
