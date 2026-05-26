@@ -127,7 +127,6 @@ export function DigitsView({authState,
     logout,
     switchAccount,
     loginWithToken,
-    error,
   } = useAuth();
 
   if (error) {
