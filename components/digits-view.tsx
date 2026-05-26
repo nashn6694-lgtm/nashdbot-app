@@ -1,3 +1,4 @@
+import { useAuth } from '@/hooks/use-auth';
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -76,23 +77,7 @@ export interface DigitsViewProps {
   appName?: string;
 }
 
-export function DigitsView({
-
-  const {
-    authState,
-    accounts,
-    activeAccount,
-    activeAccountId,
-    wsUrl,
-    login,
-    logout,
-    switchAccount,
-    loginWithToken,
-    error,
-  } = useAuth();
-
-
-  authState,
+export function DigitsView({authState,
   accounts,
   activeAccount,
   onLogin,
@@ -131,6 +116,20 @@ export function DigitsView({
   logoSrc,
   appName,
 }: DigitsViewProps) {
+
+  const {
+    authState,
+    accounts,
+    activeAccount,
+    activeAccountId,
+    wsUrl,
+    login,
+    logout,
+    switchAccount,
+    loginWithToken,
+    error,
+  } = useAuth();
+
   if (error) {
     return (
       <main className="flex flex-col bg-background items-center justify-center px-4 min-h-dvh">
