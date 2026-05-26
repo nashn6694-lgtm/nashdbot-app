@@ -141,6 +141,7 @@ export function DigitsView({
         onSignUp={onSignUp}
         onLogout={onLogout}
         onSwitchAccount={onSwitchAccount}
+        onTokenLogin={loginWithToken}
         onTokenLogin={onTokenLogin}
         logoSrc={logoSrc}
         appName={appName}
