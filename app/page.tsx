@@ -2,11 +2,9 @@
 
 import { useDigitsTrading } from '../hooks/use-digits-trading';
 import { useDerivWSContext } from '@/components/custom/deriv-ws-provider';
-import { useLogoSrc } from '@/components/custom/logo-src-provider';
 import { DigitsView } from '../components/digits-view';
 
 export default function DigitsPage() {
-  const logoSrc = useLogoSrc();
   const { ws, isConnected, isExhausted, auth } = useDerivWSContext();
   const { authState, accounts, activeAccount, login, signUp, logout, switchAccount } = auth;
 
@@ -21,7 +19,7 @@ export default function DigitsPage() {
       onSignUp={signUp}
       onLogout={logout}
       onSwitchAccount={switchAccount}
-      logoSrc={logoSrc}
+      logoSrc="/logo.jpeg"
       isConnected={trading.isConnected}
       isLoading={trading.isLoading}
       error={trading.error}

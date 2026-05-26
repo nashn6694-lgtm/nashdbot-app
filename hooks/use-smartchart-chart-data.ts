@@ -2,11 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { ActiveSymbol, DerivWS } from '@deriv/core';
-import {
-  getMarketDisplayName,
-  getSubmarketDisplayName,
-  getSubgroupDisplayName,
-} from '@/lib/active-symbols-display-names';
 
 export interface SmartChartsSymbol {
   symbol: string;
@@ -131,12 +126,12 @@ export function useSmartChartChartData(
       exchange_is_open: s.exchange_is_open as 0 | 1,
       is_trading_suspended: s.is_trading_suspended as 0 | 1,
       market: s.market ?? '',
-      market_display_name: s.market_display_name ?? getMarketDisplayName(s.market ?? ''),
+      market_display_name: s.market_display_name ?? s.market ?? '',
       pip: s.pip_size ?? 0.01,
       subgroup: s.subgroup ?? '',
-      subgroup_display_name: s.subgroup_display_name ?? getSubgroupDisplayName(s.subgroup ?? ''),
+      subgroup_display_name: s.subgroup_display_name ?? s.subgroup ?? '',
       submarket: s.submarket ?? '',
-      submarket_display_name: s.submarket_display_name ?? getSubmarketDisplayName(s.submarket ?? ''),
+      submarket_display_name: s.submarket_display_name ?? s.submarket ?? '',
       symbol_type: s.underlying_symbol_type ?? '',
     }));
     // Ensure every activeSymbol has a tradingTimes entry. Pristine v1.9.12's

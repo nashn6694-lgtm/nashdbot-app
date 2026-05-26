@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils';
 import type { ClosedPosition } from '@/hooks/use-closed-positions';
-import { getSymbolDisplayName } from '@/lib/active-symbols-display-names';
 
 interface ClosedPositionCardProps {
   pos: ClosedPosition;
@@ -50,7 +49,7 @@ export function ClosedPositionCard({
             </span>
           </div>
           <span className="text-sm font-semibold text-foreground leading-tight">
-            {getSymbolDisplayName(pos.underlying_symbol)}
+            {pos.underlying_symbol}
           </span>
         </div>
         <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">

@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { buildFaviconUri } from '@/lib/build-favicon-uri';
-import { getLogoSrc } from '@/lib/get-logo-src';
 import { inter, FONT_CLASS_MAP } from '@/lib/fonts';
 import { TemplateLayout } from '@/components/custom/template-layout';
-import { LogoSrcProvider } from '@/components/custom/logo-src-provider';
 import '@/app/globals.css';
 import './globals.css';
 import './custom.css';
@@ -22,15 +20,12 @@ const fontClass =
   inter.className;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const logoSrc = getLogoSrc();
   return (
     <html lang="en" className="h-full lg:h-auto" suppressHydrationWarning>
       <body
         className={`${fontClass} bg-background flex min-h-dvh flex-col overflow-hidden max-lg:h-dvh max-lg:overflow-hidden lg:block lg:h-auto lg:min-h-screen lg:overflow-x-hidden lg:overflow-y-auto`}
       >
-        <TemplateLayout>
-          <LogoSrcProvider logoSrc={logoSrc}>{children}</LogoSrcProvider>
-        </TemplateLayout>
+        <TemplateLayout>{children}</TemplateLayout>
       </body>
     </html>
   );
