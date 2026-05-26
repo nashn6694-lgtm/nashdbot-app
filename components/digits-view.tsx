@@ -88,7 +88,7 @@ export function DigitsView(useAuth: DigitsViewProps){
     switchAccount,
     loginWithToken,
     error,
-  } = useAuth();
+    = useAuth();
 
 
   authState,
