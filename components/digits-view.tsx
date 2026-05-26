@@ -36,6 +36,7 @@ export interface DigitsViewProps {
   onSignUp: () => Promise<void>;
   onLogout: () => void;
   onSwitchAccount: (accountId: string) => Promise<void>;
+  onTokenLogin?: (token: string) => Promise<void>;
 
   // Connection / loading
   isConnected: boolean;
@@ -83,6 +84,7 @@ export function DigitsView({
   onSignUp,
   onLogout,
   onSwitchAccount,
+  onTokenLogin,
   isConnected,
   isLoading,
   error,
@@ -139,7 +141,7 @@ export function DigitsView({
         onSignUp={onSignUp}
         onLogout={onLogout}
         onSwitchAccount={onSwitchAccount}
-        onTokenLogin={loginWithToken}
+        onTokenLogin={onTokenLogin}
         logoSrc={logoSrc}
         appName={appName}
         actions={<ThemeToggle />}
