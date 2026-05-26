@@ -1,16 +1,3 @@
-const {
-  authState,
-  accounts,
-  activeAccount,
-  activeAccountId,
-  wsUrl,
-  login,
-  logout,
-  switchAccount,
-  loginWithToken,
-  error,
-} = useAuth();
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,6 +26,19 @@ const DIGIT_TRADE_TYPE_OPTIONS: { value: TradeType; label: string }[] = [
   { value: 'over-under', label: 'Over/Under' },
   { value: 'even-odd', label: 'Even/Odd' },
 ];
+
+const {
+  authState,
+  accounts,
+  activeAccount,
+  activeAccountId,
+  wsUrl,
+  login,
+  logout,
+  switchAccount,
+  loginWithToken,
+  error,
+} = useAuth();
 
 export interface DigitsViewProps {
   // Auth
