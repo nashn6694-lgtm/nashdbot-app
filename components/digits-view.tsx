@@ -78,7 +78,7 @@ export interface DigitsViewProps {
 
 export function DigitsView(useAuth: DigitsViewProps){
 
-    authState,
+    {authState,
     accounts,
     activeAccount,
     activeAccountId,
@@ -88,7 +88,7 @@ export function DigitsView(useAuth: DigitsViewProps){
     switchAccount,
     loginWithToken,
     error,
-    = useAuth();
+    }= useAuth();
 
 
   authState,
